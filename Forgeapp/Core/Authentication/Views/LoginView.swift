@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import GoogleSignIn
-import GoogleSignInSwift
-import FirebaseAuth
 
 struct LoginView: View {
     @State private var email = ""
@@ -73,12 +70,7 @@ struct LoginView: View {
                         .background(Color.purple)
                         .cornerRadius(8)
                 }
-                
-                GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .wide, state: .normal)) {
-                    Task {
-                        
-                    }
-                }
+            
                 
                 // Forgot Password Link
                 Button("Forgot password?") {

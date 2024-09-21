@@ -1,80 +1,101 @@
+//
+//  LoginView.swift
+//  Testapp
+//
+//  Created by Lotte Faber on 19/09/2024.
+//
+
 import SwiftUI
-import Firebase
-import GoogleSignIn
 
 struct RegistrationView: View {
-    @State private var isSignedIn = false
-
+    @State private var email = ""
+    @State private var password = ""
+    @State private var isPasswordVisible = false
+    
     var body: some View {
-        VStack(spacing: 20) {
-            // Header
-            Text("Register")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            // Google Sign-In Button
-            Button(action: {
-                signInWithGoogle()
-            }) {
-                HStack {
-                    Image("google_logo") // Add your Google logo image here
+        NavigationStack{
+            VStack(spacing: 20) {
+                Spacer()
+                // Logo and Welcome Text
+                VStack(spacing: 8) {
+                    Image(systemName: "figure.run")
                         .resizable()
-                        .frame(width: 24, height: 24)
-                    Text("Register with Google")
-                        .fontWeight(.medium)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.purple)
+                    
+                    Text("Welcome to Forge!")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    
+                    Text("Your fitness journey starts here!")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                .padding(.bottom, 20)
+                
+                // Email Field
+                TextField("Email", text: $email)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                
+                // Password Field
+                HStack {
+                    if isPasswordVisible {
+                        TextField("Password", text: $password)
+                    } else {
+                        SecureField("Password", text: $password)
+                    }
+                    
+                    Button(action: {
+                        isPasswordVisible.toggle()
+                    }) {
+                        Image(systemName: isPasswordVisible ? "eye.slash" : "eye")
+                            .foregroundColor(.gray)
+                    }
                 }
                 .padding()
-                .background(Color.red)
-                .foregroundColor(.white)
+                .background(Color(.systemGray6))
                 .cornerRadius(8)
-            }
-            .padding(.top, 40)
-            
-            Spacer()
-        }
-        .padding()
-        .onAppear {
-            // Check if user is already signed in
-            if GIDSignIn.sharedInstance.currentUser != nil {
-                isSignedIn = true
-            }
-        }
-    }
-
-    private func signInWithGoogle() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else {
-            print("Error: Unable to retrieve client ID")
-            return
-        }
-
-        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
-
-        GIDSignIn.sharedInstance.signIn(withPresenting: UIApplication.shared.windows.first?.rootViewController ?? UIViewController()) { result, error in
-            guard error == nil else {
-                print("Error signing in: \(error!.localizedDescription)")
-                return
-            }
-            
-            guard let result = result else { return }
-            let authentication = result.user.authentication
-            let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-
-            // Sign in with Firebase
-            Auth.auth().signIn(with: credential) { authResult, error in
-                if let error = error {
-                    print("Firebase sign-in error: \(error.localizedDescription)")
-                    return
+                
+                // Login Button
+                Button(action: {
+                    // Implement login action
+                }) {
+                    Text("Register")
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.purple)
+                        .cornerRadius(8)
                 }
-                // User is signed in
-                isSignedIn = true
-                print("User signed in: \(authResult?.user.uid ?? "")")
+            
+                
+                // Forgot Password Link
+                Button("Forgot password?") {
+                    // Implement forgot password action
+                }
+                .foregroundStyle(.purple)
+                
+                Spacer()
+                
+                // Register Link
+                NavigationLink{
+                    LoginView()
+                } label: {
+                    HStack(spacing: 3) {
+                        Text("Already have an account?")
+                            .foregroundStyle(.black)
+                        Text("Login").fontWeight(.semibold).foregroundStyle(.purple)
+                    }
+                }
             }
+            .padding()
         }
     }
 }
 
-struct RegistrationView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegistrationView()
-    }
+#Preview {
+    RegistrationView()
 }
