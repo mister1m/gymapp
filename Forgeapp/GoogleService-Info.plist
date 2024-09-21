@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>130406640125-875tup6cqnd7kpig0p74m03h1ebudkau.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.130406640125-875tup6cqnd7kpig0p74m03h1ebudkau</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA2mekPeugO3sRuvLMWrtt_BVYjZ1vAaLg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>130406640125</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Forge.Forgeapp</string>
+	<key>PROJECT_ID</key>
+	<string>forge-d287d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>forge-d287d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:130406640125:ios:64075088209097b1eb9194</string>
+</dict>
+</plist>
