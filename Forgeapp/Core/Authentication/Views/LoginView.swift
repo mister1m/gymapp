@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import GoogleSignIn
+import GoogleSignInSwift
+
+@MainActor
 
 struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
     @State private var isPasswordVisible = false
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack{
@@ -35,7 +38,7 @@ struct LoginView: View {
                 .padding(.bottom, 20)
                 
                 // Email Field
-                TextField("Email", text: $email)
+                TextField("Email", text: $viewModel.email)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
@@ -43,9 +46,9 @@ struct LoginView: View {
                 // Password Field
                 HStack {
                     if isPasswordVisible {
-                        TextField("Password", text: $password)
+                        TextField("Password", text: $viewModel.password)
                     } else {
-                        SecureField("Password", text: $password)
+                        SecureField("Password", text: $viewModel.password)
                     }
                     
                     Button(action: {
@@ -60,9 +63,9 @@ struct LoginView: View {
                 .cornerRadius(8)
                 
                 // Login Button
-                Button(action: {
-                    // Implement login action
-                }) {
+                Button {
+                    Task { try await viewModel.login()}
+                } label: {
                     Text("Login")
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -70,8 +73,8 @@ struct LoginView: View {
                         .background(Color.purple)
                         .cornerRadius(8)
                 }
-            
                 
+        
                 // Forgot Password Link
                 Button("Forgot password?") {
                     // Implement forgot password action
@@ -83,7 +86,6 @@ struct LoginView: View {
                 // Register Link
                 NavigationLink{
                     RegistrationView()
-                        .navigationBarBackButtonHidden()
                 } label: {
                     HStack(spacing: 3) {
                         Text("Don't have an account?")

@@ -7,9 +7,16 @@
 
 import SwiftUI
 
+
 struct SettingsView: View {
     var body: some View {
-        Text("Settings")
+        NavigationStack{
+            Button {
+                AuthService.shared.signOut()
+            } label: {
+                Text("Logout")
+            }
+        }
     }
 }
 
