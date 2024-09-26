@@ -13,6 +13,7 @@
 		6B4625B02CA1A1C100A69404 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4625AF2CA1A1C000A69404 /* UserService.swift */; };
 		6B4625B32CA1A95800A69404 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4625B22CA1A95700A69404 /* Workout.swift */; };
 		6B4625BB2CA1ABC200A69404 /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4625BA2CA1ABC200A69404 /* WorkoutService.swift */; };
+
 		6B500C0D2C9F0DC700152FB9 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B500C0C2C9F0DC700152FB9 /* AuthService.swift */; };
 		6B8AEFDB2C9E101400C5CF20 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B8AEFDA2C9E101300C5CF20 /* GoogleService-Info.plist */; };
 		6B8AEFDD2C9E117100C5CF20 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6B8AEFDC2C9E117100C5CF20 /* FirebaseAuth */; };
