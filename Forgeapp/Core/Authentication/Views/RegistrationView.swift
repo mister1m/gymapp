@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct RegistrationView: View {
-    @State private var email = ""
-    @State private var password = ""
+    @StateObject var viewModel = RegistrationViewModel()
+
     @State private var isPasswordVisible = false
     
     var body: some View {
@@ -35,7 +35,7 @@ struct RegistrationView: View {
                 .padding(.bottom, 20)
                 
                 // Email Field
-                TextField("Email", text: $email)
+                TextField("Email", text: $viewModel.email)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
@@ -43,9 +43,9 @@ struct RegistrationView: View {
                 // Password Field
                 HStack {
                     if isPasswordVisible {
-                        TextField("Password", text: $password)
+                        TextField("Password", text: $viewModel.password)
                     } else {
-                        SecureField("Password", text: $password)
+                        SecureField("Password", text: $viewModel.password)
                     }
                     
                     Button(action: {
@@ -61,7 +61,7 @@ struct RegistrationView: View {
                 
                 // Login Button
                 Button(action: {
-                    // Implement login action
+                    Task {try await viewModel.createUser()}
                 }) {
                     Text("Register")
                         .foregroundColor(.white)
@@ -70,13 +70,7 @@ struct RegistrationView: View {
                         .background(Color.purple)
                         .cornerRadius(8)
                 }
-            
-                
-                // Forgot Password Link
-                Button("Forgot password?") {
-                    // Implement forgot password action
-                }
-                .foregroundStyle(.purple)
+
                 
                 Spacer()
                 
