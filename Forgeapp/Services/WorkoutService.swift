@@ -12,9 +12,9 @@ import FirebaseFirestore
 class WorkoutService: ObservableObject {
     private var db = Firestore.firestore()
     
-    // Function to fetch all workouts for a user
+    // Fetch workouts for a user with exercise count
     func getWorkoutsForUser(completion: @escaping ([Workout]?, Error?) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else {return}
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         let userWorkoutsRef = db.collection("users").document(uid).collection("workouts")
         
         userWorkoutsRef.getDocuments { (snapshot, error) in
@@ -24,18 +24,45 @@ class WorkoutService: ObservableObject {
             }
             
             var workouts: [Workout] = []
+            let dispatchGroup = DispatchGroup()
             
-            // Parse each document into Workout
             snapshot?.documents.forEach { document in
                 do {
-                    let workout = try document.data(as: Workout.self)
-                    workouts.append(workout)
+                    var workout = try document.data(as: Workout.self)
+                    guard let workoutId = workout.id else { return }
+                    
+                    // Fetch exercise count for each workout
+                    dispatchGroup.enter()
+                    self.getExercisesCountForWorkout(workoutId: workoutId) { count in
+                        workout.exerciseCount = count
+                        workouts.append(workout)
+                        dispatchGroup.leave()
+                    }
                 } catch {
                     print("Error decoding workout: \(error)")
                 }
             }
-            print("Error decoding workout: \(workouts)")
-            completion(workouts, nil)
+            
+            dispatchGroup.notify(queue: .main) {
+                completion(workouts, nil)
+            }
+        }
+    }
+    
+    // Fetch exercise count for a workout
+    func getExercisesCountForWorkout(workoutId: String, completion: @escaping (Int) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let exercisesRef = db.collection("users").document(uid).collection("workouts").document(workoutId).collection("exercises")
+        
+        exercisesRef.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error fetching exercises count: \(error)")
+                completion(0)
+                return
+            }
+            
+            let count = snapshot?.documents.count ?? 0
+            completion(count)
         }
     }
     

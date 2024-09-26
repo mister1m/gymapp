@@ -30,12 +30,14 @@ struct Workout: Identifiable, Codable {
     var title: String
     var description: String
     var muscleGroup: [String]
+    var exerciseCount: Int? 
     var exercises: [Exercise]? // Array to hold all exercises in the workout
 
-    init(title: String, description: String, muscleGroup: [String], exercises: [Exercise]? = nil) {
+    init(title: String, description: String, muscleGroup: [String], exerciseCount : Int? = 0, exercises: [Exercise]? = nil) {
         self.title = title
         self.description = description
         self.muscleGroup = muscleGroup
+        self.exerciseCount = exerciseCount
         self.exercises = exercises
     }
 }
